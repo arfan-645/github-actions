@@ -1,4 +1,4 @@
-name: 🚀 Deploy petelaj.com via FTP
+name: Deploy petelaj.com
 
 on:
   push:
@@ -6,16 +6,20 @@ on:
       - main
 
 jobs:
-  ftp-deploy:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: 📥 Checkout code
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: 📂 FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          server-dir: /petelaj.com/
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+
+      - name: Deploy index.html
+        run: |
+          rsync -avz --delete \
+          index.html \
+          ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/
