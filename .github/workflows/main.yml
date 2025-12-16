@@ -1,20 +1,23 @@
-on: 
+name: 🚀 Deploy petelaj.com (Production)
+
+on:
   push:
     branches:
       - main
-name: 🚀 Deploy website on push
+
 jobs:
-  web-deploy:
-    name: 🎉 Deploy
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v4
-    
-    - name: 📂 Sync files
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-      with:
-        server: www.petelaj.com
-        username: ${{ secrets.ftp_username }}
-        password: ${{ secrets.ftp_password }}
-        server-dir: /petelaj.com/
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+
+      - name: 🚀 Deploy via SFTP
+        uses: easingthemes/ssh-deploy@v4.1.8
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote-user: ${{ secrets.SFTP_USERNAME }}
+          server-ip: ${{ secrets.SFTP_SERVER }}
+          remote-path: /petelaj.com/
+          local-path: ./
