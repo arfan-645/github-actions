@@ -17,4 +17,4 @@ jobs:
         server: www.petelaj.com
         username: ${{ secrets.ftp_username }}
         password: ${{ secrets.ftp_password }}
-        server-dir: /production.petelaj.com/
+        server-dir: /petelaj.com/
