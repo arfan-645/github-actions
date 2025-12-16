@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Checkout repository
+      - name: 📥 Checkout code
         uses: actions/checkout@v4
 
       - name: 🚀 Deploy via SFTP
         uses: easingthemes/ssh-deploy@v4.1.8
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-          remote-user: ${{ secrets.SFTP_USERNAME }}
-          server-ip: ${{ secrets.SFTP_SERVER }}
-          remote-path: /petelaj.com/
-          local-path: ./
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_USER: ${{ secrets.SFTP_USERNAME }}
+          REMOTE_HOST: ${{ secrets.SFTP_SERVER }}
+          SOURCE: ./
+          TARGET: /petelaj.com/
